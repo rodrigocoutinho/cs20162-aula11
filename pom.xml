@@ -4,19 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- mvn javadoc:aggregate-jar (javadoc em jar) -->
-    <!-- mvn source:jar (os fontes em jar)          -->
+    <!-- mvn javadoc:javadoc
+         Gera documentação do projeto
 
-    <groupId>cs20162-aula11</groupId>
-    <artifactId>parser</artifactId>
+         mvn package -P cobertura
+         Compila, executa testes e elabora relatório de cobertura.
+
+         mvn exec:java -Dexec.mainClass="com.github.kyriosdata.exemplo.ProgramaCalendario"
+         Executa o programa exemplo
+    -->
+
+    <groupId>com.github.rodrigocoutinho</groupId>
+    <artifactId>calcular</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0</version>
 
-    <name>cs20162-aula11</name>
+    <name>com.github.rodrigocoutinho:cs20162-aula11</name>
 
     <description>
-        Analisador léxico, analisador sintático e avaliador
-        de expressões matemáticas.
+        Projeto de referência (exemplo) inicial de desenvolvimento em Java com uso de JUnit.
     </description>
 
     <url>https://github.com/rodrigocoutinho/cs20162-aula11</url>
@@ -40,9 +46,9 @@
 
     <developers>
         <developer>
-            <id>rodrigocoutinho</id>
-            <name>Rodrigo Francisco Coutinho</name>
-            <email>cvc.francisco@gmail.com</email>
+            <id>kyriosdata</id>
+            <name>Fábio Nogueira de Lucena</name>
+            <email>fabio@inf.ufg.br</email>
             <organization>Instituto de Informática (UFG)</organization>
             <organizationUrl>http://www.inf.ufg.br</organizationUrl>
         </developer>
@@ -58,68 +64,107 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
-    <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.5.1</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
-                </plugin>
-
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.0-M2</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            </plugins>
-    </build>
-
     <dependencies>
-
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.0.0-M2</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.0.0-M2</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.7</version>
         </dependency>
 
-        <!-- mvn surefire-report:report -->
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
         <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.19.1</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.7</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.github.kyriosdata.parser</groupId>
+            <artifactId>parser</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
     </dependencies>
 
-    <!-- mvn site (gera relatório) -->
+    <build>
+
+        <!-- Define o nome do arquivo a ser gerado (.jar é acrescentada) -->
+        <finalName>Calcular</finalName>
+
+        <plugins>
+
+            <!-- mvn org.pitest:pitest-maven:muatationCoverage -->
+            <!-- Relatório em: target/pit-reports/YYYYMMDDHHMM -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.1.10</version>
+                <configuration>
+                    <targetClasses>
+                        <param>com.github.kyriosdata.exemplo.Calendario</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.github.kyriosdata.exemplo.*</param>
+                    </targetTests>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.build.directory}/jars/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Copia dependencias para "jars", não incluída no jar.    -->
+            <!-- Ou seja, você deve obter exemplo.jar e o diretório jars -->
+            <!-- para que a aplicação seja executada satisfatoriamente.  -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>jars/</classpathPrefix>
+                            <mainClass>com.github.rodrigocoutinho.aula11.Calcular</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <!-- mvn site (gera relatório em Project Report -->
     <reporting>
         <plugins>
             <plugin>
@@ -135,7 +180,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.3</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -149,9 +194,7 @@
         <profile>
             <id>cobertura</id>
             <build>
-
                 <plugins>
-
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
@@ -172,21 +215,11 @@
                             </execution>
                         </executions>
                     </plugin>
-
-                    <plugin>
-                        <groupId>org.eluder.coveralls</groupId>
-                        <artifactId>coveralls-maven-plugin</artifactId>
-                        <version>4.2.0</version>
-                    </plugin>
-
                 </plugins>
             </build>
         </profile>
 
         <!-- PROFILE: release -->
-        <!-- mvn deploy -P release -->
-        <!-- oss.sonatype.org username: kyriosdata -->
-        <!-- central.sonatype.org -->
         <profile>
             <id>release</id>
             <build>
@@ -222,42 +255,6 @@
                         </executions>
                     </plugin>
 
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.7</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>deploy-to-sonatype</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                    <goal>release</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
 
