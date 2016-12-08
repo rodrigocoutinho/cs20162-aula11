@@ -10,19 +10,26 @@ import com.github.kyriosdata.parser.Token;
 
 import java.util.List;
 
+/**
+ *
+ * @author Shakaw
+ */
 public final class Calcular {
+    
+    private Calcular(){
+    };
 
     /**
-     * 
      *
-     * @param args Parametros passados pela linha de comando
+     *
+     * @param expressao String Parametros passados pela linha de comando
+     * @return retorna o resultado da expressao matematica
      */
-    public static void main(final String[] args) {
+    public static float Entrada(final String expressao) {
 
-        List<Token> tokens = new Lexer(args[0]).tokenize();
+        List<Token> tokens = new Lexer(expressao).tokenize();
         Parser parser = new Parser(tokens);
-        float resultado = parser.expressao().valor(); // 23.0
 
-        System.out.println(resultado);
+        return parser.expressao().valor();
     }
 }

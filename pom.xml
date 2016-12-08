@@ -89,6 +89,12 @@
             <artifactId>parser</artifactId>
             <version>1.0.1</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.github.stefanbirkner</groupId>
+            <artifactId>system-rules</artifactId>
+            <version>1.3.0</version>
+        </dependency>
 
     </dependencies>
 
@@ -155,7 +161,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>jars/</classpathPrefix>
-                            <mainClass>com.github.rodrigocoutinho.aula11.Calcular</mainClass>
+                            <mainClass>com.github.rodrigocoutinho.aula11.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
