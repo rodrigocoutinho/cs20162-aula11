@@ -5,9 +5,11 @@
  */
 package com.github.rodrigocoutinho.aula11;
 
+import org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -16,30 +18,37 @@ import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 public class MainTest {
     
 
-
+@Test
+public void testMain(){
+    Main m = new Main();
+}
+    
     @Rule
     public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @Test
-    public void rodarSemExpressao() {
-        exit.expectSystemExitWithStatus(1); //Espera sair com erro (1)
+    public void testExpressaoVazia() {
+        exit.expectSystemExitWithStatus(1);
         String[] args = null;
         Main.main(args);
-
+        assertEquals(1, exit);
     }
 
     @Test
-    public void rodarExpressaoInvalida() {
-        exit.expectSystemExitWithStatus(1); //Espera sair com erro (1)
+    public void testExpressaoInvalida() {
+        exit.expectSystemExitWithStatus(1);
         String[] args = {"+-"};
         Main.main(args);
+        assertEquals(1, exit);
+        
 
     }
 
     @Test
-    public void rodarExpressaoValida() {
-        exit.expectSystemExitWithStatus(0); //Espera sair sem erro (0)
+    public void testExpressaoValida() {
+        exit.expectSystemExitWithStatus(0);
         String[] args = {"(2+5)/2"};
         Main.main(args);
+        assertEquals(0, exit);
     }
 }

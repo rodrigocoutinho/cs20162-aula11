@@ -11,6 +11,14 @@ import org.junit.Test;
  * @author Shakaw
  */
 public class CalcularTest {
+    
+    /**
+     * Instancia classe.
+     */
+    @Test
+    public void testInst() {
+        Calcular calc = new Calcular();
+    }
 
     /**
      * Testa entrada valida.

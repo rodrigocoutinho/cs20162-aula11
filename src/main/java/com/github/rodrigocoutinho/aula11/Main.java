@@ -10,9 +10,6 @@ package com.github.rodrigocoutinho.aula11;
  */
 public final class Main {
     
-    private Main(){
-}
-
     /**
      * imprime o resultado da expressão matemática fornecida ao executar.
      *

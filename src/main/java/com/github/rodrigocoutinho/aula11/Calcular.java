@@ -16,9 +16,6 @@ import java.util.List;
  */
 public final class Calcular {
     
-    private Calcular(){
-    };
-
     /**
      *
      *
