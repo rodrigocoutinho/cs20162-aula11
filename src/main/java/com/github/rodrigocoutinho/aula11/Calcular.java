@@ -17,7 +17,7 @@ import java.util.List;
 public final class Calcular {
     
     /**
-     *
+     * Recebe parametros e retorna o resultado da expressao passada.
      *
      * @param expressao String Parametros passados pela linha de comando
      * @return retorna o resultado da expressao matematica

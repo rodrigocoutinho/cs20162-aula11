@@ -16,16 +16,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Shakaw
  */
 public class MainTest {
-    
 
-@Test
-public void testMain(){
-    Main m = new Main();
-}
-    
+    /**
+     * Instancia classe.
+     */
+    @Test
+    public void testMain() {
+        Main m = new Main();
+    }
+    /**
+     * Faz referencia as saidas
+     */
     @Rule
     public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
+    /**
+     * Testa quando a expressao esta vazia ou nula;
+     */
     @Test
     public void testExpressaoVazia() {
         exit.expectSystemExitWithStatus(1);
@@ -34,16 +41,21 @@ public void testMain(){
         assertEquals(1, exit);
     }
 
+    /**
+     * Testando expressao incorreta.
+     */
     @Test
     public void testExpressaoInvalida() {
         exit.expectSystemExitWithStatus(1);
         String[] args = {"+-"};
         Main.main(args);
         assertEquals(1, exit);
-        
 
     }
 
+    /**
+     * Testa uma expressao valida.
+     */
     @Test
     public void testExpressaoValida() {
         exit.expectSystemExitWithStatus(0);
